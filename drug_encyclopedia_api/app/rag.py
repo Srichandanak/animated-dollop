@@ -56,8 +56,19 @@ df = pd.read_csv(DATA_PATH)
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-client = chromadb.Client()
-collection = client.create_collection("dailymed_homeopathic_ui")
+# client = chromadb.Client()
+# collection = client.create_collection("dailymed_homeopathic_ui")
+import chromadb
+from chromadb.config import Settings
+
+client = chromadb.Client(
+    Settings(
+        persist_directory="/opt/render/project/src/chroma_db",
+        is_persistent=True
+    )
+)
+
+collection = client.get_or_create_collection("spl_docs")
 
 
 def split_sections(text: str):
@@ -84,14 +95,22 @@ def split_sections(text: str):
     return sections
 
 
-def build_collection():
+def build_collection_if_empty():
+    existing = collection.count()
+
+    if existing > 0:
+        print(f"Collection already contains {existing} documents. Skipping build.")
+        return
+
+    print("Building collection from CSV...")
+
     documents = []
     metadatas = []
     ids = []
 
     counter = 0
 
-    for idx, row in df.iterrows():
+    for _, row in df.iterrows():
         title = row["title"]
         file_name = row["file_name"]
         full_text = row["full_text"]
@@ -117,9 +136,11 @@ def build_collection():
         embeddings=embeddings.tolist(),
     )
 
+    print("Collection build complete.")
+
 
 # Build once at startup
-build_collection()
+build_collection_if_empty()
 
 
 def search_labels(query: str, top_k: int = 5, section=None, file_name=None):
