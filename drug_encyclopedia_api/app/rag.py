@@ -56,17 +56,17 @@ df = pd.read_csv(DATA_PATH)
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# client = chromadb.Client()
+client = chromadb.Client()
 # collection = client.create_collection("dailymed_homeopathic_ui")
-import chromadb
-from chromadb.config import Settings
+# import chromadb
+# from chromadb.config import Settings
 
-client = chromadb.Client(
-    Settings(
-        persist_directory="/opt/render/project/src/chroma_db",
-        is_persistent=True
-    )
-)
+# client = chromadb.Client(
+#     Settings(
+#         persist_directory="/opt/render/project/src/chroma_db",
+#         is_persistent=True
+#     )
+# )
 
 collection = client.get_or_create_collection("spl_docs")
 
