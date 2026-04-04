@@ -272,7 +272,4 @@ venv/
 ```
 
 ---
-
-## License
-
-MIT
+currently not deployed
