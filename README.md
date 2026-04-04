@@ -1,7 +1,6 @@
 # Drug Encyclopedia API
 
 A production-grade RAG (Retrieval-Augmented Generation) API for querying prescription and homeopathic drug information. Built with FastAPI, ChromaDB, BM25, cross-encoder reranking, and Groq LLaMA.
-
 ---
 
 ## What This Does
