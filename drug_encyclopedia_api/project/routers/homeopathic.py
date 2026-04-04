@@ -11,4 +11,4 @@ router = APIRouter(
 
 @router.post("/")
 def ask_homeopathic(request: QueryRequest):
-    return handle_homeopathic_query(request.query)
+    return handle_homeopathic_query(request.query, request.persona)  # add persona

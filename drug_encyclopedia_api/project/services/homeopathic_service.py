@@ -2,7 +2,6 @@
 
 from rag import query_drug
 
-def handle_homeopathic_query(query: str):
-    # You can add homeopathic-specific logic here
-    response = query_drug(query, source="homeopathic")
+def handle_homeopathic_query(query: str, persona: str = "patient"):
+    response = query_drug(query, source="homeopathic", persona=persona)
     return response

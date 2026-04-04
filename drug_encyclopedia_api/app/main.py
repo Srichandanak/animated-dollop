@@ -42,6 +42,7 @@
 #         question=req.question,
 #         contexts=[ContextItem(**h) for h in hits],
 #     )
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel

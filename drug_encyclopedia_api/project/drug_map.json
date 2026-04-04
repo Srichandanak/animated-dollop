@@ -1,0 +1,19 @@
+{
+  "brand_to_generic": {
+    "calpol": "paracetamol",
+    "tylenol": "paracetamol",
+    "advil": "ibuprofen",
+    "nurofen": "ibuprofen",
+    "brufen": "ibuprofen"
+  },
+  "generics": {
+    "paracetamol": {
+      "display_name": "Paracetamol",
+      "aliases": ["calpol", "tylenol", "panadol"]
+    },
+    "ibuprofen": {
+      "display_name": "Ibuprofen",
+      "aliases": ["advil", "nurofen", "brufen"]
+    }
+  }
+}
