@@ -96,7 +96,6 @@ def split_sections(text: str):
 
     return sections
 
-
 def build_collection_if_empty():
     existing = collection.count()
 
@@ -129,14 +128,26 @@ def build_collection_if_empty():
             ids.append(str(counter))
             counter += 1
 
-    embeddings = model.encode(documents, convert_to_numpy=True)
+    # ✅ BATCH PROCESSING
+    BATCH_SIZE = 5000
 
-    collection.add(
-        ids=ids,
-        documents=documents,
-        metadatas=metadatas,
-        embeddings=embeddings.tolist(),
-    )
+    for i in range(0, len(documents), BATCH_SIZE):
+        batch_docs = documents[i:i+BATCH_SIZE]
+        batch_meta = metadatas[i:i+BATCH_SIZE]
+        batch_ids = ids[i:i+BATCH_SIZE]
+
+        print(f"Processing batch {i} to {i + len(batch_docs)}")
+
+        # ✅ compute embeddings per batch (important)
+        batch_embeddings = model.encode(batch_docs, convert_to_numpy=True)
+
+        # ✅ insert batch
+        collection.add(
+            ids=batch_ids,
+            documents=batch_docs,
+            metadatas=batch_meta,
+            embeddings=batch_embeddings.tolist(),
+        )
 
     print("Collection build complete.")
 

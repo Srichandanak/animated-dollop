@@ -1,0 +1,12 @@
+[
+  {
+    "question": "What is the dosage of paracetamol for adults?",
+    "expected_answer": "500mg to 1000mg every 4 to 6 hours, max 4g per day",
+    "source": "prescription"
+  },
+  {
+    "question": "What are the side effects of ibuprofen?",
+    "expected_answer": "Stomach upset, nausea, increased risk of bleeding",
+    "source": "prescription"
+  }
+]

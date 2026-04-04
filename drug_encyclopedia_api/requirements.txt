@@ -4,3 +4,10 @@ pydantic
 pandas
 sentence-transformers
 chromadb
+rank-bm25
+pyyaml
+ragas
+datasets
+langchain-groq
+langchain-core
+python-dotenv

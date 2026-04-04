@@ -40,22 +40,30 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
 from routers import prescription, homeopathic
 from routers import drug_resolver  # NEW: import the drug resolver router
 
-app = FastAPI(title="Drug Information API")
+from rag import index_data
 
-# CORS (unchanged)
-origins = ["*"
-    # "http://localhost:5173",
-    # "http://127.0.0.1:5173",
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    index_data()
+    yield
+
+app = FastAPI(title="Drug Information API", lifespan=lifespan)
+
+# CORS configuration
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -64,12 +72,6 @@ app.add_middleware(
 app.include_router(prescription.router)
 app.include_router(homeopathic.router)
 app.include_router(drug_resolver.router)  # NEW: register drug resolver endpoints
-
-from rag import index_data
-
-@app.on_event("startup")
-def startup_event():
-    index_data()
 
 @app.get("/")
 def root():
